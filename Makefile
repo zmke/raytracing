@@ -48,6 +48,11 @@ check: $(EXEC)
 	@./$(EXEC) && diff -u baseline.ppm out.ppm || (echo Fail; exit)
 	@echo "Verified OK"
 
+branch-test: $(EXEC)
+	perf stat --repeat 10 \
+	-e branch-misses,branches,instructions,cycles \
+	./raytracing
+
 clean:
 	$(RM) $(EXEC) $(OBJS) use-models.h \
 		out.ppm gmon.out
